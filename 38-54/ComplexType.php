@@ -1,5 +1,26 @@
 <?php
 
+class Rent 
+{
+    public $car,$driver;
+
+    public function __construct(Car $car,Driver $driver) 
+    {
+        $this->car = $car;
+        $this->driver = $driver;
+    }
+
+    public function getCar() : Car
+    {
+        return $this->car;
+    }
+
+    public function getDriver() : Driver
+    {
+        return $this->driver;
+    }
+}
+
 class Driver
 {
     public $name, $age, $family, $hourlyRate, $martialStatus;
@@ -97,5 +118,29 @@ $dPaul->setFamily(["Father"=>"Peter", "Mother"=>"Lilly", "Brother"=>"Bryan"]);
 $dPaul->setHourlyRate(9.5);
 $dPaul->setMartialStatus(TRUE);
 
+$toyota = new Car("Trueno AE86", 1983, 50.5, ["Seat Belt", "Turbo", "Tires"], FALSE);
+$nissan = new Car("Skyline R32", 1994, 45.5, ["Seat Belt", "Turbo", "Tires"], TRUE);
+
+$rent1 = new Rent($toyota, $dPaul);
+$rent2 = new Rent($nissan, $dBob);
+
+$list = [$rent1, $rent2];
+
+echo "There are " . count($list) . " cars in this company.<hr>";
+
+$serializeData = serialize($list);
+echo $serializeData;
+echo "<hr>";
+$ary = unserialize($serializeData);
+echo "<pre>" . print_r($ary, true) . "</pre>";
+echo "<hr>";
+
+echo $list[0]->getCar()->getBrand() . "<br>";
+echo $list[0]->getDriver()->getName() . "<br>";
+echo $list[0]->getDriver()->getHourlyRate() . "<hr>";
+
+echo $list[1]->getCar()->getBrand() . "<br>";
+echo $list[1]->getDriver()->getName() . "<br>";
+echo $list[1]->getDriver()->getHourlyRate() . "<hr>";
 
 ?>
