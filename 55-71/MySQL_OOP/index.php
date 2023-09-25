@@ -21,7 +21,9 @@ class Index
        // $this->db->insertSingleShop("Foody World", "192.168.0.105","foody world", "123", 1);
        // $this->db->insertMultipleShop($shops);
        // $this->db->updateShop(6,"Yaki Niku");
-       $this->db->deleteShop(8);
+       // $this->db->deleteShop(8);
+       // $this->db->getJoinData(1);
+       $this->db->fetchAllShops(1);
     }
 
 

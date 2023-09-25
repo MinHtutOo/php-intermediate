@@ -47,6 +47,20 @@ class DBGen
         }
     }
 
+    public function fetchAllShops($state)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM shops WHERE state=?");
+        $stmt->bind_param('i', $state);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_all();
+
+        echo "<pre>" . print_r($data, true) . "</pre>";
+        foreach($data as $item) {
+            echo $item[1] . "<br>";
+        }
+    }
+
     public function insertSingleShop($name,$ipadd,$user,$pass,$state)
     {
         $date = date("Y-m-d H:m:s");
@@ -91,6 +105,37 @@ class DBGen
         $stmt->bind_param("i", $shopid);
         $result = $stmt->execute();
         echo $result ? "Delete Successfully." : "Delete Fail!";
+    }
+
+    public function getJoinData($state)
+    {
+        $stmt = $this->conn->prepare("SELECT
+                od.id as order_id,
+                sh.name as shop_name,
+                dh.name as dish_name,
+                (od.price * od.amount) as total,
+                od.created_at as order_date
+            FROM 
+                orders as od
+            LEFT JOIN
+                shops as sh
+            ON 
+                sh.id = od.shopid
+            INNER JOIN 
+                dishes as dh
+            ON 
+                dh.id = od.dishid
+            WHERE 
+                od.state = ?
+        ");
+        $stmt->bind_param('i',$state);
+        $result = $stmt->execute();
+        $stmt->bind_result($orderid,$shopname,$dishname,$total,$oDate);
+        while($stmt->fetch()) {
+            echo $orderid . "<br>" . $shopname . "<br>" . $dishname . "<br>" . 
+                $total . "<br>" . $oDate . "<hr>";
+        }
+
     }
 }
 
