@@ -1,0 +1,8 @@
+
+
+Error Message => 
+ File not Found! Report by my custom exception class.
+Error Code => 
+ 1000
+Error Timestamp => 
+ 2023-09-26 05:59:10
